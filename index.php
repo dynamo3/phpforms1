@@ -1,27 +1,43 @@
 <?php
-    //header("Location: success.html");
-    //exit;
+	error_reporting(E_ALL);
+	ini_set('display_errors', 'on');
+	//header("Location: success.html");
+	//exit;
 ?>
 <?php
-    //if($_POST) { ... } 
-    if($_SERVER['REQUEST_METHOD'] == 'POST') {
-        print_r($_REQUEST);
-    }
+	//if($_POST) { ... } 
+	$error_array = array();
+	if($_SERVER['REQUEST_METHOD'] == 'POST') {
+		if($_POST['first_name'] == '') {
+			array_push($error_array, 'Please enter a first name');
+		}
+
+		if($_POST['last_name'] == '') {
+			array_push($error_array, 'Please enter a last name');
+		}
+	}
+	$error = "";
+	if(count($error_array) > 0) {
+		foreach($error_array as $e) {
+			$error = $error . $e . "<br>"; 
+		}
+	}
+
 ?>
 
 
 
 <html lang="en">
 <head>
-    <title>Hello PHP Forms</title>
+	<title>Hello PHP Forms</title>
 </head>
 <body>
-    <!-- <div class="error"><?php echo $error?></div> -->
-    <form action="" method="POST">
-        <input type="text" name="first_name">
-        <input type="text" name="last_name">
-        <input type="email" name="email">
-        <button type="submit">Let's Go!</button>
-    </form>
+	<div class="error"><?php print_r($error); ?></div>
+	<form action="" method="POST">
+		FName: <input type="text" name="first_name" value="<?php echo($_POST['first_name']);?>"><br>
+		LName: <input type="text" name="last_name" value="<?php echo($_POST['last_name']);?>"><br>
+		Email: <input type="email" name="email"><br>
+		<button type="submit">Let's Go!</button>
+	</form>
 </body>
 </html>
